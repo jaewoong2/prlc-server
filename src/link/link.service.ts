@@ -3,6 +3,7 @@ import { CreateLinkDto } from './dto/create-link.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Link } from './entities/link.entity';
 import { Repository } from 'typeorm';
+import { EntityNotFoundException } from 'src/common/exception/service.exception';
 
 @Injectable()
 export class LinkService {
@@ -10,6 +11,18 @@ export class LinkService {
     @InjectRepository(Link)
     private readonly linkRepository: Repository<Link>,
   ) {}
+
+  async findByCustomUrl(custom_url: string) {
+    if (!custom_url) {
+      throw EntityNotFoundException(custom_url + ' is not found');
+    }
+
+    const link = await this.linkRepository.findOne({
+      where: { custom_url },
+    });
+
+    return link;
+  }
 
   async findAll(take: number) {
     try {

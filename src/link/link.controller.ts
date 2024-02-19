@@ -26,6 +26,17 @@ export class LinkController {
     }
   }
 
+  @Get('/search')
+  async findId(@Query('custom_url') custom_url: string) {
+    try {
+      const newLink = await this.linkService.findByCustomUrl(custom_url);
+      return { message: 'Find All Links Successly', data: newLink };
+    } catch (error) {
+      console.error('Error creating a link:', error);
+      return { message: error };
+    }
+  }
+
   @Get(':userId')
   async findAllUsersLink(
     @Param('userId', ParseIntPipe) userId: number,
