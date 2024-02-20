@@ -2,7 +2,6 @@ import { Catch, ExceptionFilter, ArgumentsHost } from '@nestjs/common';
 import { ServiceException } from '../exception/service.exception';
 import { Response, Request } from 'express';
 
-// src/common/exception-filter/service.exception.to.http.exception.filter.ts
 @Catch(ServiceException)
 export class ServiceExceptionToHttpExceptionFilter implements ExceptionFilter {
   catch(exception: ServiceException, host: ArgumentsHost): void {
