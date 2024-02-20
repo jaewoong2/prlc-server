@@ -1,9 +1,12 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Link } from './entities/link.entity';
 import { Repository } from 'typeorm';
-import { EntityNotFoundException } from 'src/common/exception/service.exception';
+import {
+  ClientErrorException,
+  EntityNotFoundException,
+} from 'src/common/exception/service.exception';
 
 @Injectable()
 export class LinkService {
@@ -12,14 +15,14 @@ export class LinkService {
     private readonly linkRepository: Repository<Link>,
   ) {}
 
-  async findByCustomUrl(custom_url: string) {
-    if (!custom_url) {
-      throw EntityNotFoundException(custom_url + ' is not found');
-    }
-
+  async findByCustomUrl(customUrl: string) {
     const link = await this.linkRepository.findOne({
-      where: { custom_url },
+      where: { custom_url: customUrl },
     });
+
+    if (!link) {
+      throw EntityNotFoundException(`${customUrl} Entity is not found`);
+    }
 
     return link;
   }
@@ -31,84 +34,39 @@ export class LinkService {
       });
 
       return links;
-    } catch (err) {
-      console.error('Error: Find link:', err);
-
-      throw new HttpException(
-        {
-          message: 'Error: Find link',
-          error: err,
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+    } catch (error) {
+      throw ClientErrorException(error.message);
     }
   }
 
   async findAllUsersLink({ page, userId }: { page: number; userId: number }) {
-    try {
-      const links = await this.linkRepository.find({
-        where: {
-          user: { id: userId },
-        },
-        take: 10,
-        skip: (page - 1) * 10,
-      });
+    const links = await this.linkRepository.find({
+      where: {
+        user: { id: userId },
+      },
+      take: 10,
+      skip: (page - 1) * 10,
+    });
 
-      return links;
-    } catch (err) {
-      console.error('Error: Find All Yours link:', err);
-
-      throw new HttpException(
-        {
-          message: 'Error: Find All Yours link',
-          error: err,
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    return links;
   }
 
   async createForUser(createLinkDto: CreateLinkDto) {
-    try {
-      const newlink = this.linkRepository.create({
-        ...createLinkDto,
-      });
+    const newlink = this.linkRepository.create({
+      ...createLinkDto,
+    });
 
-      await this.linkRepository.save(newlink);
+    await this.linkRepository.save(newlink);
 
-      return newlink;
-    } catch (err) {
-      console.error('Error creating a link:', err);
-
-      throw new HttpException(
-        {
-          message: 'An error occurred while creating the link',
-          error: err,
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    return newlink;
   }
 
   async create(custom_url: string) {
-    try {
-      const newlink = this.linkRepository.create({
-        custom_url: custom_url,
-      });
+    const newlink = this.linkRepository.create({
+      custom_url: custom_url,
+    });
 
-      await this.linkRepository.save(newlink);
-
-      return newlink;
-    } catch (err) {
-      console.error('Error creating a link:', err);
-
-      throw new HttpException(
-        {
-          message: 'An error occurred while creating the link',
-          error: err,
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    await this.linkRepository.save(newlink);
+    return newlink;
   }
 }
