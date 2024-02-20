@@ -8,9 +8,9 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
+      whitelist: true, // DTO 에 작성된 값만 수신
+      forbidNonWhitelisted: true, // DTO 에 필수 값이 안들어오면 막기
+      transform: true, // DTO Type 에 맞게 수신 값 변경
     }),
   );
 
