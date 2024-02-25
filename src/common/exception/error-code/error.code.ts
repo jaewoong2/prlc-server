@@ -18,3 +18,5 @@ export const CLIENT_ERROR = new ErrorCodeVo(
   400,
   'Client Error: 잘못된 값 입니다',
 );
+
+export const AUTHORIZATION_ERROR = new ErrorCodeVo(401, '인증오류');

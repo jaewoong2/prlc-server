@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Link } from './link.entity';
+import { Link } from 'src/link/entities/link.entity';
 
 @Entity()
 export class User {
@@ -18,6 +18,6 @@ export class User {
   @Column({ nullable: true })
   access_token: string;
 
-  @OneToMany(() => Link, (todolist) => todolist.user)
-  linkList: Link[];
+  @OneToMany(() => Link, (link) => link.user)
+  linkList: Link;
 }

@@ -8,6 +8,7 @@ import { TypeOrmConfigService } from './config/typeOrmConfig';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { AuthModule } from './auth/auth.module';
 import awsConfig from './config/aws.config';
+import authConfig from './config/auth.config';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import awsConfig from './config/aws.config';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [awsConfig],
+      load: [awsConfig, authConfig],
     }),
     LinkModule,
     FileUploadModule,

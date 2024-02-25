@@ -11,6 +11,12 @@ export const ClientErrorException = (message?: string): ServiceException => {
   return new ServiceException(CLIENT_ERROR, message);
 };
 
+export const ValidatationErrorException = (
+  message?: string,
+): ServiceException => {
+  return new ServiceException(CLIENT_ERROR, message);
+};
+
 export class ServiceException extends Error {
   readonly errorCode: ErrorCode;
 

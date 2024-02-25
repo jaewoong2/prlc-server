@@ -13,6 +13,9 @@ export default registerAs('aws', () => ({
       UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
       ClientId: process.env.AWS_COGNITO_CLIENT_ID,
       ClientSecretKey: process.env.AWS_CLIENT_SECRET_KEY,
+      defaultPassword: process.env.AWS_COGNITO_DEFAULT_PASSWORD,
+      redirectUrl: process.env.AWS_COGNITO_LOGIN_SUCCESS_REDIRECT_URL,
+      authroity: process.env.AWS_COGNITO_AUTHORITY,
     },
   },
 }));
