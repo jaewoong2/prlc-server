@@ -14,6 +14,12 @@ async function bootstrap() {
     }),
   );
 
+  app.enableCors({
+    origin: ['https://prlc.kr', 'http://localhost:3001'],
+    credentials: true,
+    exposedHeaders: ['Authorization'], // * 사용할 헤더 추가.
+  });
+
   app.useGlobalFilters(new ServiceExceptionToHttpExceptionFilter());
 
   await app.listen(3000);
