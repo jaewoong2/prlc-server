@@ -1,14 +1,14 @@
 import { IsNotEmpty } from 'class-validator';
+import { User } from 'src/auth/entities/user.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { User } from './user.entity';
 
 @Entity()
 export class Link {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'thumbnail', nullable: true, unique: false })
-  thumbnail: string;
+  @Column({ name: 'image', nullable: true, unique: false })
+  image: string;
 
   @Column({ name: 'title', nullable: true, unique: false })
   title: string;

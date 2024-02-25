@@ -1,19 +1,6 @@
 import { IsOptional, IsString } from 'class-validator';
-import { User } from '../entities/user.entity';
 
 export class CreateLinkDto {
-  @IsString()
-  @IsOptional()
-  thumbnail?: string;
-
-  @IsString()
-  @IsOptional()
-  title?: string;
-
-  @IsString()
-  @IsOptional()
-  description?: string;
-
   @IsString()
   origin_url: string;
 
@@ -21,5 +8,10 @@ export class CreateLinkDto {
   custom_url: string;
 
   @IsOptional()
-  user?: User;
+  @IsString()
+  title?: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
 }
